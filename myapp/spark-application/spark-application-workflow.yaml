@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: spark-application-
+spec:
+  entrypoint: generate-yaml
+  templates:
+  - name: generate-yaml
+    script:
+      image: python:alpine3.6
+      command: [python]
+      source: |
+        import datetime
+        import yaml
+
+        data = {
+          "apiVersion": "sparkoperator.k8s.io/v1beta2",
+          "kind": "SparkApplication",
+          "metadata": {
+            "name": "netflix-trend-" + datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
+            "namespace": "default"
+          },
+          "spec": {
+            "type": "Python",
+            "pythonVersion": "3",
+            "mode": "cluster",
+            "image": "netflix-image",
+            "imagePullPolicy": "IfNotPresent",
+            "mainApplicationFile": "local:///app/netflix.py",
+            "sparkConf": {
+              "spark.ui.port": "4041",
+              "spark.jars": "local:///app/jars/postgresql-42.7.3.jar"
+            },
+            "sparkVersion": "3.0.0",
+            "restartPolicy": {
+              "type": "Never"
+            },
+            "driver": {
+              "cores": 1,
+              "memory": "512m",
+              "labels": {
+                "version": "3.0.0"
+              },
+              "serviceAccount": "spark-driver"
+            },
+            "executor": {
+              "cores": 1,
+              "instances": 5,
+              "memory": "512m",
+              "labels": {
+                "version": "3.0.0"
+              }
+            }
+          }
+        }
+
+        with open('/tmp/spark-application.yaml', 'w') as f:
+          yaml.dump(data, f)
+    outputs:
+      artifacts:
+      - name: spark-application-yaml
+        path: /tmp/spark-application.yaml
