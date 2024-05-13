@@ -16,6 +16,6 @@ spec:
       serviceAccountName: spark-operator
       containers:
       - name: spark-operator
-        image: gcr.io/spark-operator/spark-operator:v1beta2-1.2.3-3.1.1
+        image: gcr.io/spark-operator/spark-operator:latest
         imagePullPolicy: Always
         command: ["/usr/bin/spark-operator"]
