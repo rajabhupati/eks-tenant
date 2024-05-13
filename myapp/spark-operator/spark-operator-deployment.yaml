@@ -16,6 +16,6 @@ spec:
       serviceAccountName: spark-operator
       containers:
       - name: spark-operator
-        image: gcr.io/spark-operator/spark:v3.1.1
+        image: mesosphere/spark-operator
         imagePullPolicy: Always
         command: ["/usr/bin/spark-operator"]
