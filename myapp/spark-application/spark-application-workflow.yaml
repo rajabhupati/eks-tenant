@@ -24,7 +24,7 @@ spec:
             "type": "Python",
             "pythonVersion": "3",
             "mode": "cluster",
-            "image": "netflix-image",
+            "image": "rajabhupatiks/myapp:spark_app",
             "imagePullPolicy": "IfNotPresent",
             "mainApplicationFile": "local:///app/netflix.py",
             "sparkConf": {
