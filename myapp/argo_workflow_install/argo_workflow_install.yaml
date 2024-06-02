@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/argoproj/argo-workflows
-    targetRevision: v3.1.1
+    targetRevision: v3.5.7
     path: manifests
   destination:
     namespace: argo
