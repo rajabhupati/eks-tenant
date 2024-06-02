@@ -11,5 +11,6 @@ spec:
           containers:
           - name: argo-workflow-trigger
             image: argoproj/argoexec:v3.1.1
-            command: [argo, submit, --from, workflowtemplate/spark-application-]
+            command: ["sh", "-c"]
+            args: ["argo submit --from workflow/spark-application --name spark-application-$(date +%Y%m%d%H%M%S)"]
           restartPolicy: OnFailure
