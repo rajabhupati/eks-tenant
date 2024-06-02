@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: spark-application-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: argo-workflow-trigger
+            image: argoproj/argoexec:v3.1.1
+            command: [argo, submit, --from, workflowtemplate/spark-application-]
+          restartPolicy: OnFailure
